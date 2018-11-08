@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="2"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/ip_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="50dp"
+            android:text="IP Address"
+            android:textAlignment="center"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/ip_entry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:digits="0123456789."
+            android:ems="10"
+            android:inputType="number"
+            android:paddingTop="50dp"/>
+
+        <TextView
+            android:id="@+id/port_text"
+            android:paddingTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Port Number"
+            android:textAlignment="center"
+            android:textColor="@android:color/black" />
+
+        <EditText
+            android:id="@+id/port_entry"
+            android:paddingTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number"
+            android:digits="0123456789"/>
+
+        <RadioGroup
+            android:id="@+id/myRadioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="94dp"
+            android:checkedButton="@+id/mouse"
+            android:orientation="horizontal"
+            android:paddingTop="50dp">
+
+            <RadioButton
+                android:id="@+id/mouse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Mouse" />
+
+            <RadioButton
+                android:id="@+id/touchpad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Touch Pad" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/connect"
+        android:onClick="onConnectClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Connect" />
+
+</RelativeLayout>
+
