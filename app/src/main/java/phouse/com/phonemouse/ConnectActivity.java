@@ -12,6 +12,10 @@ import java.util.regex.Pattern;
 
 public class ConnectActivity extends AppCompatActivity
 {
+    static
+    {
+        System.loadLibrary("opencv_java");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

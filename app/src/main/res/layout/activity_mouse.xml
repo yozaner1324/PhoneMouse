@@ -23,6 +23,7 @@
         android:id="@+id/rightClick"
         android:layout_width="30dp"
         android:layout_height="200dp"
-        android:layout_weight="3"/>
+        android:layout_weight="3"
+        android:onClick="rightClick"/>
 
 </LinearLayout>
