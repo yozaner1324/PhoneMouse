@@ -125,3 +125,9 @@ build/intermediates/lint-cache/*
 
 
 *.class
+
+\.idea/
+
+build/
+
+openCVLibrary344/
