@@ -12,10 +12,6 @@ import java.util.regex.Pattern;
 
 public class ConnectActivity extends AppCompatActivity
 {
-    static
-    {
-        System.loadLibrary("opencv_java");
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -44,7 +40,7 @@ public class ConnectActivity extends AppCompatActivity
                 e.printStackTrace();
             }
 
-            //if(conn != null && conn.testConnection())
+            if(conn != null && conn.testConnection())
             {
                 // pass connection
                 intent.putExtra("conn", conn);
@@ -52,11 +48,12 @@ public class ConnectActivity extends AppCompatActivity
                 // put connection here
                 startActivity(intent);
             }
-//            else
-//            {
-//                Toast.makeText(getApplicationContext(), "Connection could not be established", Toast.LENGTH_SHORT).show();
-//            }
-        } else
+            else
+            {
+                Toast.makeText(getApplicationContext(), "Connection could not be established", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else
         {
             Toast.makeText(getApplicationContext(), "Please enter valid IP Address and Port Number", Toast.LENGTH_SHORT).show();
         }

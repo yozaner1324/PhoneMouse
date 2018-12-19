@@ -14,17 +14,17 @@ public class MouseCommander
 
     public void leftClick()
     {
-
+        conn.send("left");
     }
 
     public void releaseLeftClick()
     {
-
+        conn.send("release");
     }
 
     public void rightClick()
     {
-
+        conn.send("right");
     }
 
     public void moveCursor(float x, float y)

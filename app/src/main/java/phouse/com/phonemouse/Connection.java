@@ -1,53 +1,106 @@
 package phouse.com.phonemouse;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
+import java.net.SocketException;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 public class Connection implements Serializable
 {
-    private Socket socket;
+    private InetSocketAddress address;
+    private transient ExecutorService executorService;
 
-    public Connection(String ip_address, int port_num) throws IOException
+    public Connection(final String ip_address, final int port_num) throws IOException
     {
-        socket = new Socket(ip_address, port_num);
-        socket.setSoTimeout(1000);
+        address = new InetSocketAddress(ip_address, port_num);
     }
 
-    public void send(String data)
+    public void send(final String data)
     {
-        try
+        Runnable sender = new Runnable()
         {
-            OutputStreamWriter writer = new OutputStreamWriter(socket.getOutputStream());
-            writer.write(data, 0, data.length());
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+            @Override
+            public void run()
+            {
+                try
+                {
+                    Socket socket = new Socket();
+                    socket.connect(address);
+
+                    DataOutputStream output = new DataOutputStream(socket.getOutputStream());
+                    output.writeUTF(data);
+                    output.flush();
+
+                    socket.close();
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        getExecutorService().submit(sender);
+
     }
 
     public boolean testConnection()
     {
-        send("TestConnection");
 
+        Callable<Boolean> tester = new Callable<Boolean>()
+        {
+            @Override
+            public Boolean call() throws Exception
+            {
+                Socket socket = new Socket();
+                socket.connect(address);
+
+                DataOutputStream output = new DataOutputStream(socket.getOutputStream());
+                output.writeUTF("test");
+                output.flush();
+
+                DataInputStream input = new DataInputStream(socket.getInputStream());
+                String data = input.readUTF();
+                socket.close();
+
+                return data.contains("ok");
+            }
+        };
+
+        Future<Boolean> result = getExecutorService().submit(tester);
         try
         {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            if(reader.readLine().equals("OK"))
-            {
-                return true;
-            }
+            return result.get(10, TimeUnit.SECONDS);
         }
-        catch (IOException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
 
-
         return false;
+    }
+
+    private ExecutorService getExecutorService()
+    {
+        if(executorService == null)
+        {
+            executorService = Executors.newSingleThreadExecutor();
+        }
+
+        return executorService;
     }
 }

@@ -120,3 +120,8 @@ PhoneMouse\.iml
 \.idea/vcs\.xml
 
 *.gradle
+
+build/intermediates/lint-cache/*
+
+
+*.class
