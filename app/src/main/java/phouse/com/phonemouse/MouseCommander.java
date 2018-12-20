@@ -34,7 +34,7 @@ public class MouseCommander
 
     public void scroll(int count)
     {
-
+        conn.send("move " + count);
     }
 
     public void startMotionTracking()

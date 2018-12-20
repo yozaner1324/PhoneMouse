@@ -44,7 +44,7 @@
             android:digits="0123456789"/>
 
         <RadioGroup
-            android:id="@+id/myRadioGroup"
+            android:id="@+id/mode"
             android:layout_width="match_parent"
             android:layout_height="94dp"
             android:checkedButton="@+id/mouse"

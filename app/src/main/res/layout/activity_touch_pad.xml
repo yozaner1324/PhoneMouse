@@ -2,30 +2,43 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MouseActivity"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:layout_weight="1"
-    android:rotation="180">
+    android:layout_weight="1">
 
-    <Button
-        android:id="@+id/leftClick"
-        android:layout_width="30dp"
-        android:layout_height="100dp"
-        android:layout_weight="3"/>
+    <Space android:id="@+id/pad"
+        android:layout_width="100dp"
+        android:layout_height="520dp"
+        android:layout_weight="1"/>
 
-    <ImageView
-        android:id="@+id/scroll"
-        android:layout_width="10dp"
-        android:layout_height="100dp"
-        android:layout_weight="1"
-        android:background="@drawable/scrollwheel"/>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".MouseActivity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="1">
 
-    <Button
-        android:id="@+id/rightClick"
-        android:layout_width="30dp"
-        android:layout_height="100dp"
-        android:layout_weight="3"
-        android:onClick="rightClick"/>
+        <Button
+            android:id="@+id/leftClick"
+            android:layout_width="30dp"
+            android:layout_height="100dp"
+            android:layout_weight="3"/>
 
+        <ImageView
+            android:id="@+id/scroll"
+            android:layout_width="10dp"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:background="@drawable/scrollwheel"/>
+
+        <Button
+            android:id="@+id/rightClick"
+            android:layout_width="30dp"
+            android:layout_height="100dp"
+            android:layout_weight="3"
+            android:onClick="rightClick"/>
+
+    </LinearLayout>
 </LinearLayout>
