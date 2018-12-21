@@ -12,33 +12,9 @@
         android:layout_height="520dp"
         android:layout_weight="1"/>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        tools:context=".MouseActivity"
+    <fragment
+        android:name="phouse.com.phonemouse.ControlFragment"
+        android:id="@+id/frag"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:layout_weight="1">
-
-        <Button
-            android:id="@+id/leftClick"
-            android:layout_width="30dp"
-            android:layout_height="100dp"
-            android:layout_weight="3"/>
-
-        <ImageView
-            android:id="@+id/scroll"
-            android:layout_width="10dp"
-            android:layout_height="100dp"
-            android:layout_weight="1"
-            android:background="@drawable/scrollwheel"/>
-
-        <Button
-            android:id="@+id/rightClick"
-            android:layout_width="30dp"
-            android:layout_height="100dp"
-            android:layout_weight="3"
-            android:onClick="rightClick"/>
-
-    </LinearLayout>
+        android:layout_height="match_parent"/>
 </LinearLayout>
