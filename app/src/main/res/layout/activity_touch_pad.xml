@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:layout_weight="1">
 
-    <ImageView
+    <View
         android:id="@+id/pad"
         android:background="@color/colorTouchPad"
         android:layout_width="match_parent"

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 
 public class TouchPadActivity extends AppCompatActivity
 {
@@ -28,13 +27,12 @@ public class TouchPadActivity extends AppCompatActivity
         ControlFragment fragment = (ControlFragment) getSupportFragmentManager().findFragmentById(R.id.frag);
         fragment.setup(commander);
 
-        ImageView pad = findViewById(R.id.pad);
+        View pad = findViewById(R.id.pad);
         pad.setOnTouchListener(new View.OnTouchListener()
         {
             @Override
             public boolean onTouch(View v, MotionEvent event)
             {
-                int index = event.getActionIndex();
                 int action = event.getActionMasked();
                 switch (action)
                 {

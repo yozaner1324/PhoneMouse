@@ -2,14 +2,20 @@ package phouse.com.phonemouse;
 
 import org.opencv.core.Mat;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class MouseCommander
 {
     private Connection conn;
+    private Timer timer;
     private Mat prevPic;
 
     public MouseCommander(Connection connection)
     {
         conn = connection;
+        timer = null;
+        prevPic = null;
     }
 
     public void leftClick()
@@ -39,17 +45,27 @@ public class MouseCommander
 
     public void startMotionTracking()
     {
+        timer = new Timer();
 
+        TimerTask process_motion = new TimerTask()
+        {
+            @Override
+            public void run()
+            {
+
+            }
+        };
+
+        timer.scheduleAtFixedRate(process_motion, 1000, 1000);
     }
 
-    private void processMotion()
+    public void stopMotionTracking()
     {
-
+        timer.cancel();
     }
 
     public void disconnect()
     {
         conn.disconnect();
     }
-
 }

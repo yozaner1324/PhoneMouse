@@ -19,13 +19,18 @@ public class MouseActivity extends AppCompatActivity
         Connection conn = (Connection) getIntent().getExtras().get("conn");
         commander = new MouseCommander(conn);
 
+        // init control fragment
         ControlFragment fragment = (ControlFragment) getSupportFragmentManager().findFragmentById(R.id.frag);
         fragment.setup(commander);
+
+        // starts the image processing for mouse movement
+        commander.startMotionTracking();
     }
 
     @Override
     public void onBackPressed()
     {
+        commander.stopMotionTracking();
         commander.disconnect();
         super.onBackPressed();
     }
