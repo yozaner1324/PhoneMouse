@@ -55,15 +55,22 @@ public class TouchPadActivity extends AppCompatActivity
         {
             @Override
             public boolean onTouch(View v, MotionEvent event)
-            {
-                int index = event.getActionIndex();
+            {int index = event.getActionIndex();
                 int pointerId = event.getPointerId(index);
                 if(event.getAction() == MotionEvent.ACTION_MOVE)
                 {
-                    commander.scroll(Math.round(lastY - event.getY(pointerId)));
+                    int notches = Math.round(event.getY(pointerId) - lastY)/2;
+                    if(notches != 0)
+                    {
+                        commander.scroll(notches);
+                        lastY = event.getY(pointerId);
+                    }
+                }
+                else if (event.getAction() == MotionEvent.ACTION_DOWN)
+                {
                     lastY = event.getY(pointerId);
                 }
-                return false;
+                return true;
             }
         });
     }
@@ -98,5 +105,12 @@ public class TouchPadActivity extends AppCompatActivity
     public void rightClick(View view)
     {
         commander.rightClick();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        commander.disconnect();
+        super.onBackPressed();
     }
 }

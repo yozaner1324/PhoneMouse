@@ -16,6 +16,7 @@ public class Connection implements Serializable
 {
     private InetSocketAddress address;
     private transient ExecutorService executorService;
+    private transient  Socket socket;
 
     public Connection(final String ip_address, final int port_num) throws IOException
     {
@@ -31,14 +32,9 @@ public class Connection implements Serializable
             {
                 try
                 {
-                    Socket socket = new Socket();
-                    socket.connect(address);
-
-                    DataOutputStream output = new DataOutputStream(socket.getOutputStream());
+                    DataOutputStream output = new DataOutputStream(getSocket().getOutputStream());
                     output.writeUTF(data);
                     output.flush();
-
-                    socket.close();
                 }
                 catch (IOException e)
                 {
@@ -59,16 +55,12 @@ public class Connection implements Serializable
             @Override
             public Boolean call() throws Exception
             {
-                Socket socket = new Socket();
-                socket.connect(address);
-
-                DataOutputStream output = new DataOutputStream(socket.getOutputStream());
+                DataOutputStream output = new DataOutputStream(getSocket().getOutputStream());
                 output.writeUTF("test");
                 output.flush();
 
-                DataInputStream input = new DataInputStream(socket.getInputStream());
+                DataInputStream input = new DataInputStream(getSocket().getInputStream());
                 String data = input.readUTF();
-                socket.close();
 
                 return data.contains("ok");
             }
@@ -87,6 +79,20 @@ public class Connection implements Serializable
         return false;
     }
 
+    public void disconnect()
+    {
+        try
+        {
+            getSocket().close();
+            socket = null;
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        getExecutorService().shutdown();
+    }
+
     private ExecutorService getExecutorService()
     {
         if(executorService == null)
@@ -95,5 +101,17 @@ public class Connection implements Serializable
         }
 
         return executorService;
+    }
+
+    private Socket getSocket() throws IOException
+    {
+        if(socket == null)
+        {
+            socket = new Socket();
+            socket.connect(address);
+
+        }
+
+        return socket;
     }
 }
