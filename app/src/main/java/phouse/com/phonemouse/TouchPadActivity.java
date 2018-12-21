@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ImageView;
 
 public class TouchPadActivity extends AppCompatActivity
 {
@@ -25,32 +27,30 @@ public class TouchPadActivity extends AppCompatActivity
 
         ControlFragment fragment = (ControlFragment) getSupportFragmentManager().findFragmentById(R.id.frag);
         fragment.setup(commander);
-    }
 
-    // touch pad
-    public boolean onTouchEvent(MotionEvent event)
-    {
-        int index = event.getActionIndex();
-        int action = event.getActionMasked();
-        int pointerId = event.getPointerId(index);
-        switch (action)
+        ImageView pad = findViewById(R.id.pad);
+        pad.setOnTouchListener(new View.OnTouchListener()
         {
-            case MotionEvent.ACTION_DOWN:
-                startX = event.getX(pointerId);
-                startY = event.getY(pointerId);
-                break;
-            case MotionEvent.ACTION_MOVE:
-                commander.moveCursor(event.getX(pointerId) - startX, event.getY(pointerId) - startY);
-                startX = event.getX(pointerId);
-                startY = event.getY(pointerId);
-                break;
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                startX = 0;
-                startY = 0;
-                break;
-        }
-        return true;
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                int index = event.getActionIndex();
+                int action = event.getActionMasked();
+                switch (action)
+                {
+                    case MotionEvent.ACTION_DOWN:
+                        startX = event.getX();
+                        startY = event.getY();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        commander.moveCursor(event.getX() - startX, event.getY() - startY);
+                        startX = event.getX();
+                        startY = event.getY();
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
     @Override

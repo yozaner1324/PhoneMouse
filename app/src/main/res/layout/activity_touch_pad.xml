@@ -7,14 +7,17 @@
     android:layout_height="match_parent"
     android:layout_weight="1">
 
-    <Space android:id="@+id/pad"
-        android:layout_width="100dp"
-        android:layout_height="520dp"
-        android:layout_weight="1"/>
+    <ImageView
+        android:id="@+id/pad"
+        android:background="@color/colorTouchPad"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_weight="1" />
 
     <fragment
         android:name="phouse.com.phonemouse.ControlFragment"
         android:id="@+id/frag"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="200dp"
+        android:layout_weight="1"/>
 </LinearLayout>

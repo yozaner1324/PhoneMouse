@@ -10,27 +10,26 @@
         tools:context=".MouseActivity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:layout_weight="1">
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/leftClick"
-            android:layout_width="30dp"
-            android:layout_height="200dp"
-            android:layout_weight="3"/>
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".4"/>
 
         <ImageView
             android:id="@+id/scroll"
-            android:layout_width="10dp"
-            android:layout_height="200dp"
-            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".20"
             android:background="@drawable/scrollwheel"/>
 
         <Button
             android:id="@+id/rightClick"
-            android:layout_width="30dp"
-            android:layout_height="200dp"
-            android:layout_weight="3"/>
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".4"/>
 
     </LinearLayout>
 
