@@ -29,12 +29,12 @@ public class MouseCommander
 
     public void moveCursor(float x, float y)
     {
-
+        conn.send("move " + Math.round(x) + " " + Math.round(y));
     }
 
-    public void scroll(int count)
+    public void scroll(float amount)
     {
-        conn.send("scroll " + count);
+        conn.send("scroll " + Math.round(amount));
     }
 
     public void startMotionTracking()

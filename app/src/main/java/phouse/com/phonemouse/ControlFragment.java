@@ -84,10 +84,10 @@ public class ControlFragment extends Fragment
                 int pointerId = event.getPointerId(index);
                 if(event.getAction() == MotionEvent.ACTION_MOVE)
                 {
-                    int notches = Math.round(event.getY(pointerId) - lastY)/2;
-                    if(notches != 0)
+                    float displacement = (event.getY(pointerId) - lastY)/2;
+                    if(displacement != 0)
                     {
-                        commander.scroll(notches);
+                        commander.scroll(displacement);
                         lastY = event.getY(pointerId);
                     }
                 }
