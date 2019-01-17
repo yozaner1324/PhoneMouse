@@ -23,7 +23,8 @@ import org.opencv.core.Mat;
 import java.nio.ByteBuffer;
 import java.util.Collections;
 
-import static org.opencv.video.Video.calcOpticalFlowFarneback;
+import static android.hardware.camera2.CaptureRequest.FLASH_MODE;
+import static org.opencv.video.Video.estimateRigidTransform;
 
 public class MouseCommander
 {
@@ -97,9 +98,12 @@ public class MouseCommander
                     {
                         Mat flow = new Mat();
                         pic.copyTo(flow);
-                        calcOpticalFlowFarneback(prevPic, pic, flow, 0.5, 1, 1, 1, 7, 1.5, 1);
-                        double[] data = flow.get(0, 0);
-                        moveCursor((float) data[0], (float) data[1]);
+                        estimateRigidTransform(prevPic, pic, false).copyTo(flow);
+
+                        if(!flow.empty())
+                        {
+                            moveCursor((float) flow.get(1, 2)[0]*3, (float) -flow.get(0, 2)[0]*3);
+                        }
                     }
 
                     prevPic = new Mat();
@@ -115,6 +119,14 @@ public class MouseCommander
 
     public void stopMotionTracking()
     {
+        try
+        {
+            cameraCapSession.abortCaptures();
+        }
+        catch (CameraAccessException e)
+        {
+            e.printStackTrace();
+        }
         cameraCapSession.close();
         backgroundThread.quitSafely();
     }
@@ -130,6 +142,7 @@ public class MouseCommander
         {
             Surface previewSurface = imageReader.getSurface();
             captureRequestBuilder = cameraDev.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+            captureRequestBuilder.set(FLASH_MODE, CaptureRequest.FLASH_MODE_TORCH);
             captureRequestBuilder.addTarget(previewSurface);
 
             cameraDev.createCaptureSession(Collections.singletonList(previewSurface),
