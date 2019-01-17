@@ -102,7 +102,18 @@ public class MouseCommander
 
                         if(!flow.empty())
                         {
-                            moveCursor((float) flow.get(1, 2)[0]*3, (float) -flow.get(0, 2)[0]*3);
+                            float x = (float) flow.get(1, 2)[0];
+                            float y = (float) -flow.get(0, 2)[0];
+
+                            if(Math.abs(x) < 1)
+                            {
+                                x = 0;
+                            }
+                            if(Math.abs(y) < 1)
+                            {
+                                y = 0;
+                            }
+                            moveCursor(x*10, y*10);
                         }
                     }
 
@@ -129,6 +140,8 @@ public class MouseCommander
         }
         cameraCapSession.close();
         backgroundThread.quitSafely();
+        cameraDev.close();
+        imageReader.close();
     }
 
     public void disconnect()
