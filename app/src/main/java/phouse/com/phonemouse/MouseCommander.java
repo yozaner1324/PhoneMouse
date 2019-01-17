@@ -1,6 +1,8 @@
 package phouse.com.phonemouse;
 
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -15,10 +17,13 @@ import android.os.HandlerThread;
 import android.support.v4.app.ActivityCompat;
 import android.view.Surface;
 
+import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 
 import java.nio.ByteBuffer;
 import java.util.Collections;
+
+import static org.opencv.video.Video.calcOpticalFlowFarneback;
 
 public class MouseCommander
 {
@@ -82,13 +87,25 @@ public class MouseCommander
                     // convert to matrix
                     ByteBuffer buffer = image.getPlanes()[0].getBuffer();
                     byte[] bytes = new byte[buffer.capacity()];
-//                    buffer.get(bytes);
-//                    Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, null);
-//                    Bitmap bmp32 = bmp.copy(Bitmap.Config.ARGB_8888, true);
-//                    Utils.bitmapToMat(bmp32, prevPic);
+                    buffer.get(bytes);
+                    Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length, null);
+                    Bitmap bmp32 = bmp.copy(Bitmap.Config.ARGB_8888, true);
                     Mat pic = new Mat();
-                    pic.put(0, 0, bytes);
-                    // process
+                    Utils.bitmapToMat(bmp32, pic);
+
+                    if(prevPic != null)
+                    {
+                        Mat flow = new Mat();
+                        pic.copyTo(flow);
+                        calcOpticalFlowFarneback(prevPic, pic, flow, 0.5, 1, 1, 1, 7, 1.5, 1);
+                        double[] data = flow.get(0, 0);
+                        moveCursor((float) data[0], (float) data[1]);
+                    }
+
+                    prevPic = new Mat();
+                    // copy picture to prevPic
+                    pic.copyTo(prevPic);
+
                     image.close();
                 }
             }

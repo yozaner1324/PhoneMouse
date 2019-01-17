@@ -10,11 +10,18 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
+import org.opencv.android.OpenCVLoader;
+
 public class MouseActivity extends AppCompatActivity
 {
 
     private MouseCommander commander;
     private static CameraManager cam;
+
+    static
+    {
+        OpenCVLoader.initDebug();
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -35,9 +42,30 @@ public class MouseActivity extends AppCompatActivity
         ControlFragment fragment = (ControlFragment) getSupportFragmentManager().findFragmentById(R.id.frag);
         fragment.setup(commander);
 
-        // starts the image processing for mouse movement
+        // load openCV
+//        if(!OpenCVLoader.initDebug())
+//        {
+//            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_4_0, this, mOpenCVCallBack);
+//        }
+//        else
+//        {
+//            mOpenCVCallBack.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+//        }
         commander.startMotionTracking();
     }
+
+//    private BaseLoaderCallback mOpenCVCallBack = new BaseLoaderCallback(this) {
+//
+//
+//        @Override
+//        public void onManagerConnected(int status){
+//            if(status == LoaderCallbackInterface.SUCCESS)
+//            {
+//                // starts the image processing for mouse movement
+//                commander.startMotionTracking();
+//            }
+//        }
+//    };
 
     @Override
     public void onBackPressed()
@@ -46,6 +74,12 @@ public class MouseActivity extends AppCompatActivity
         commander.disconnect();
         super.onBackPressed();
     }
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_4_0, this,  mOpenCVCallBack);
+//    }
 
     public static CameraManager getCameraMan()
     {
