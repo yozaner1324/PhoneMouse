@@ -1,5 +1,6 @@
 package phouse.com.phonemouse;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,12 +14,14 @@ import java.util.regex.Pattern;
 
 public class ConnectActivity extends AppCompatActivity
 {
+    private static Context con;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect);
+        con = getApplicationContext();
     }
 
     public void onConnectClick(View view)
@@ -65,5 +68,10 @@ public class ConnectActivity extends AppCompatActivity
         {
             Toast.makeText(getApplicationContext(), "Please enter valid IP Address and Port Number", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public static Context getAppContext()
+    {
+        return con;
     }
 }

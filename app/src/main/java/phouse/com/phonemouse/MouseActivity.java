@@ -1,19 +1,31 @@
 package phouse.com.phonemouse;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.hardware.camera2.CameraManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
 public class MouseActivity extends AppCompatActivity
 {
 
     private MouseCommander commander;
+    private static CameraManager cam;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        cam = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
+        }
         setContentView(R.layout.activity_mouse);
 
         Connection conn = (Connection) getIntent().getExtras().get("conn");
@@ -33,5 +45,10 @@ public class MouseActivity extends AppCompatActivity
         commander.stopMotionTracking();
         commander.disconnect();
         super.onBackPressed();
+    }
+
+    public static CameraManager getCameraMan()
+    {
+        return cam;
     }
 }
