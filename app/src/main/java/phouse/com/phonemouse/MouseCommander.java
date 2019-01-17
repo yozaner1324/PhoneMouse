@@ -23,7 +23,6 @@ import org.opencv.core.Mat;
 import java.nio.ByteBuffer;
 import java.util.Collections;
 
-import static android.hardware.camera2.CaptureRequest.FLASH_MODE;
 import static org.opencv.video.Video.estimateRigidTransform;
 
 public class MouseCommander
@@ -155,7 +154,7 @@ public class MouseCommander
         {
             Surface previewSurface = imageReader.getSurface();
             captureRequestBuilder = cameraDev.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
-            captureRequestBuilder.set(FLASH_MODE, CaptureRequest.FLASH_MODE_TORCH);
+            //captureRequestBuilder.set(FLASH_MODE, CaptureRequest.FLASH_MODE_TORCH);
             captureRequestBuilder.addTarget(previewSurface);
 
             cameraDev.createCaptureSession(Collections.singletonList(previewSurface),
