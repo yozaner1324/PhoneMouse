@@ -131,3 +131,5 @@ build/intermediates/lint-cache/*
 build/
 
 openCVLibrary344/
+
+openCVLibrary340/openCVLibrary340\.iml
